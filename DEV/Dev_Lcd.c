@@ -11,12 +11,17 @@ LCD_S *LcdDev;
 void App_DisplayInit(void)
 {
 	LcdDev = &LCD_DEV;
-	if(LcdDev != NULL) LcdDev->init();
+	if(LcdDev != NULL) {if(LcdDev->init != NULL) LcdDev->init();}
 }
 
 void App_DisplayTime(const Date_S* Date)
 {
-	if(LcdDev != NULL) LcdDev->ShowDate(Date);
+	if(LcdDev != NULL) {if(LcdDev->ShowDate != NULL)LcdDev->ShowDate(Date);}
+}
+
+void App_Clear(void)
+{
+	if(LcdDev != NULL) {if(LcdDev->Clear != NULL) LcdDev->Clear();}
 }
 
 

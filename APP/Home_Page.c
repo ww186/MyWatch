@@ -3,11 +3,13 @@
 #include "rtc.h"
 #include "usart.h"	
 
-
+PageNode_S* ChildNodeList[] = {
+    &ManagePageNode,
+};
 
 void HomePage_Init(void)
 {
-
+    Page_InitChildNode(&HomePageNode, ChildNodeList);
 
 }
 
@@ -19,7 +21,8 @@ static void OpenHomePage(void)
 
 static void CloseHomePage(void)
 {
-     printf("__Close Home Page\r\n");
+    App_Clear();
+    printf("__Close Home Page\r\n");
 
 }
 
@@ -33,6 +36,10 @@ static void ReflashHomePage(void)
 
 static void HomePageKey1Handl(void)
 {
+
+   // if( HomePageNode.CurChildNodeIndex < HomePageNode.ChildNodeNum)  HomePageNode.CurChildNodeIndex++;
+   // else HomePageNode.CurChildNodeIndex = 0;
+   Page_ChangePage(HomePageNode.ChildNode[0]);
     printf("__Key1\r\n");
 }
 

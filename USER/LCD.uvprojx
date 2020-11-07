@@ -563,6 +563,11 @@
               <FileType>1</FileType>
               <FilePath>..\APP\Home_Page.c</FilePath>
             </File>
+            <File>
+              <FileName>Manage_Page.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\APP\Manage_Page.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

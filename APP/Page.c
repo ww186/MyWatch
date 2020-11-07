@@ -1,7 +1,7 @@
 #include "Page.h"
 #include "common.h"
-#include "Home_Page.h"
 #include <string.h>
+#include "Home_Page.h"
 
 static PageNode_S* CurPage;
 
@@ -14,6 +14,7 @@ BOOL_E Page_InitChildNode(PageNode_S* iNode, PageNode_S** iNodeList)
     {
         
         iNode->ChildNode[i] = iNodeList[i];
+        iNode->ChildNode[i]->ParentNode = iNode;
         iNode->ChildNodeNum++;
         if(iNode->ChildNodeNum >= MAX_PAGE_CHILD_NODE_NUM) return FALSE;
 
@@ -89,9 +90,35 @@ void Page_Key4Handl(void)
 
 }
 
+void OpenPage(void)
+{
+    if(CurPage != NULL)
+    {
+        if(CurPage->OpenPage != NULL) CurPage->OpenPage();
+
+    }
+}
+void ClosePage(void)
+{
+    if(CurPage != NULL)
+    {
+        if(CurPage->ClosePage != NULL) CurPage->ClosePage();
+
+    }
+
+}
+
+void Page_ChangePage(PageNode_S* iNode)
+{
+    ClosePage();
+    Page_SetCurrentPage(iNode);
+    OpenPage();
+}
+
 void Page_Init(void)
 {
     CurPage = &HomePageNode;
+    HomePage_Init();
 }
 
 

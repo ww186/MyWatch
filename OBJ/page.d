@@ -35,5 +35,5 @@
 ..\obj\page.o: D:\Ksoftware\KEIL5\ARM\ARMCC\Bin\..\include\stdlib.h
 ..\obj\page.o: ..\DEV\Dev_Lcd.h
 ..\obj\page.o: ..\COM\common.h
-..\obj\page.o: ..\APP\Home_Page.h
 ..\obj\page.o: D:\Ksoftware\KEIL5\ARM\ARMCC\Bin\..\include\string.h
+..\obj\page.o: ..\APP\Home_Page.h

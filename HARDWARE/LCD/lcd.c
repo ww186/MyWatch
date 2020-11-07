@@ -84,6 +84,10 @@ u16 BACK_COLOR=0xFFFF;  //背景色
 //默认为竖屏
 _lcd_dev lcddev;
 
+static struct{
+	Date_S Date;
+	
+}LCD_Obj;
 
 	 
 //写寄存器函数
@@ -2636,6 +2640,12 @@ void LCD_Init(void)
 	}		 
 	LCD_Display_Dir(0);		//默认为竖屏
 	LCD_LED=1;				//点亮背光
+	LCD_Obj.Date.Year = 0;
+	LCD_Obj.Date.Month = 0xff;
+	LCD_Obj.Date.Day = 0xff;
+	LCD_Obj.Date.Hour = 0xff;
+	LCD_Obj.Date.Min = 0xff;
+	LCD_Obj.Date.Sec = 0xff;
 	LCD_Clear(WHITE);
 }  
 //清屏函数
@@ -2901,10 +2911,7 @@ void LCD_ShowString(u16 x,u16 y,u16 width,u16 height,u8 size,u8 *p)
     }  
 }
 
-static struct{
-	Date_S Date;
-	
-}LCD_Obj;
+
 
 static void LCD_ShowDate(const Date_S* Date)
 {
@@ -2943,10 +2950,21 @@ static void LCD_ShowDate(const Date_S* Date)
 	
 }
 
+static void LCD_ClearWatch(void)
+{
+	LCD_Clear(WHITE);
+	LCD_Obj.Date.Year = 0;
+	LCD_Obj.Date.Month = 0xff;
+	LCD_Obj.Date.Day = 0xff;
+	LCD_Obj.Date.Hour = 0xff;
+	LCD_Obj.Date.Min = 0xff;
+	LCD_Obj.Date.Sec = 0xff;
+}
 
 LCD_S AtkLcd = {
 	.init = LCD_Init,
 	.ShowDate = LCD_ShowDate,
+	.Clear = LCD_ClearWatch,
 };
 
 
