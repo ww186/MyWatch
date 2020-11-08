@@ -10,7 +10,7 @@ LCD_S *LcdDev;
 
 void App_DisplayInit(void)
 {
-	LcdDev = &LCD_DEV;
+	//LcdDev = &LCD_DEV;
 	if(LcdDev != NULL) {if(LcdDev->init != NULL) LcdDev->init();}
 }
 
