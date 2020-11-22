@@ -15,6 +15,7 @@
 #include "lv_task.h"
 #include "lv_math.h"
 #include "lv_gc.h"
+#include "usart.h"
 
 #if defined(LV_GC_INCLUDE)
 #include LV_GC_INCLUDE
@@ -403,7 +404,7 @@ static void anim_task(lv_task_t * param)
 
                 int32_t new_value;
                 new_value = a->path_cb(a);
-
+                printf("anim_task new_value %d \r\n", new_value);
                 /*Apply the calculated value*/
                 if(a->exec_cb) a->exec_cb(a->var, new_value);
 

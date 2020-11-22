@@ -1020,6 +1020,16 @@
             </File>
           </Files>
         </Group>
+        <Group>
+          <GroupName>Font</GroupName>
+          <Files>
+            <File>
+              <FileName>font_hei48.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\GUI\Font\font_hei48.c</FilePath>
+            </File>
+          </Files>
+        </Group>
       </Groups>
     </Target>
   </Targets>

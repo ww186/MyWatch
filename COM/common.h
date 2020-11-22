@@ -16,6 +16,7 @@ typedef enum
 	Thur,
 	Fri,
 	Sat,
+	Week_NONE,
 }Week_E;
 
 typedef struct{
