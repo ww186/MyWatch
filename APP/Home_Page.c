@@ -111,11 +111,6 @@ static void TimeLedCreate(lv_obj_t* cont)
 
 static void TopContCreate(void)
 {
-    static lv_style_t DateContStyle;
-    lv_style_copy(&DateContStyle, &lv_style_plain_color);
-    DateContStyle.body.opa = LV_OPA_TRANSP;
-    DateContStyle.glass = 1;
-
     ContTop = lv_cont_create(ContForWholePage, NULL);
     ContDate = lv_cont_create(ContTop, NULL);
 
@@ -129,11 +124,11 @@ static void TopContCreate(void)
 
     lv_cont_set_fit2(ContTop, LV_FIT_FLOOD, LV_FIT_TIGHT);
     lv_cont_set_layout(ContTop, LV_LAYOUT_OFF);
-    lv_cont_set_style(ContTop, LV_CONT_STYLE_MAIN, &DateContStyle);
+    lv_cont_set_style(ContTop, LV_CONT_STYLE_MAIN, &lv_style_transp);
 
     lv_cont_set_layout(ContDate, LV_LAYOUT_ROW_M);
     lv_cont_set_fit(ContDate, LV_FIT_TIGHT);
-    lv_cont_set_style(ContDate, LV_CONT_STYLE_MAIN, &DateContStyle);
+    lv_cont_set_style(ContDate, LV_CONT_STYLE_MAIN, &lv_style_transp);
     lv_obj_align(ContDate, ContTop, LV_ALIGN_IN_TOP_LEFT, 0, 0);
 
     lv_obj_align(LabWeek, NULL, LV_ALIGN_IN_TOP_RIGHT, -42, 6);
@@ -142,17 +137,12 @@ static void TopContCreate(void)
 
 static void TimeContCreate(void)
 {
-    static lv_style_t DateContStyle;
-    lv_style_copy(&DateContStyle, &lv_style_plain_color);
-    DateContStyle.body.opa = LV_OPA_TRANSP;
-    DateContStyle.glass = 1;
-
     ContTime = lv_cont_create(ContForWholePage, NULL);
 
     lv_cont_set_layout(ContTime, LV_LAYOUT_OFF);
     lv_cont_set_fit(ContTime, LV_FIT_NONE);
     lv_obj_set_size(ContTime, lv_obj_get_width(ContForWholePage), font_hei48.line_height);
-    lv_cont_set_style(ContTime, LV_CONT_STYLE_MAIN, &DateContStyle);
+    lv_cont_set_style(ContTime, LV_CONT_STYLE_MAIN, &lv_style_transp);
 
     TimeLabCreate(ContTime);
     TimeLedCreate(ContTime);

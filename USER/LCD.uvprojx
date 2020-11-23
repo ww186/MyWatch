@@ -1030,6 +1030,31 @@
             </File>
           </Files>
         </Group>
+        <Group>
+          <GroupName>Img</GroupName>
+          <Files>
+            <File>
+              <FileName>ImgLight.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\GUI\IMG\ImgLight.c</FilePath>
+            </File>
+            <File>
+              <FileName>ImgSettings.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\GUI\IMG\ImgSettings.c</FilePath>
+            </File>
+            <File>
+              <FileName>ImgStopWatch.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\GUI\IMG\ImgStopWatch.c</FilePath>
+            </File>
+            <File>
+              <FileName>ImgTimeCfg.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\GUI\IMG\ImgTimeCfg.c</FilePath>
+            </File>
+          </Files>
+        </Group>
       </Groups>
     </Target>
   </Targets>
