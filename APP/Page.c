@@ -2,6 +2,8 @@
 #include "common.h"
 #include <string.h>
 #include "Home_Page.h"
+#include "Manage_Page.h"
+#include "StopWatch_Page.h"
 
 static PageNode_S* CurPage;
 
@@ -21,6 +23,21 @@ BOOL_E Page_InitChildNode(PageNode_S* iNode, PageNode_S** iNodeList)
     }
 
     return TRUE;
+
+}
+
+BOOL_E Page_SetParentNode(PageNode_S* iNode, PageNode_S* iParentNode)
+{
+   if((iNode == NULL) || (iParentNode == NULL)) return FALSE;
+
+   if(iParentNode->ChildNodeNum < MAX_PAGE_CHILD_NODE_NUM)
+   {
+       iParentNode->ChildNode[iParentNode->ChildNodeNum++] = iNode;
+       iNode->ParentNode = iParentNode;
+       return TRUE;
+   }
+
+   return FALSE;
 
 }
 
@@ -119,6 +136,8 @@ void Page_Init(void)
 {
     CurPage = &HomePageNode;
     HomePage_Init();
+    ManagePage_Init();
+		StopWatchPageInit();
 }
 
 

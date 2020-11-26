@@ -588,6 +588,11 @@
               <FileType>1</FileType>
               <FilePath>..\GUI\LVGL\lv_examples\lv_apps\demo\img_bubble_pattern.c</FilePath>
             </File>
+            <File>
+              <FileName>StopWatch_Page.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\APP\StopWatch_Page.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -834,11 +839,6 @@
               <FilePath>..\GUI\LVGL\lvgl\src\lv_objx\lv_calendar.c</FilePath>
             </File>
             <File>
-              <FileName>lv_canvas.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\GUI\LVGL\lvgl\src\lv_objx\lv_canvas.c</FilePath>
-            </File>
-            <File>
               <FileName>lv_cb.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\GUI\LVGL\lvgl\src\lv_objx\lv_cb.c</FilePath>
@@ -904,11 +904,6 @@
               <FilePath>..\GUI\LVGL\lvgl\src\lv_objx\lv_lmeter.c</FilePath>
             </File>
             <File>
-              <FileName>lv_mbox.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\GUI\LVGL\lvgl\src\lv_objx\lv_mbox.c</FilePath>
-            </File>
-            <File>
               <FileName>lv_objx_templ.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\GUI\LVGL\lvgl\src\lv_objx\lv_objx_templ.c</FilePath>
@@ -924,16 +919,6 @@
               <FilePath>..\GUI\LVGL\lvgl\src\lv_objx\lv_preload.c</FilePath>
             </File>
             <File>
-              <FileName>lv_roller.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\GUI\LVGL\lvgl\src\lv_objx\lv_roller.c</FilePath>
-            </File>
-            <File>
-              <FileName>lv_slider.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\GUI\LVGL\lvgl\src\lv_objx\lv_slider.c</FilePath>
-            </File>
-            <File>
               <FileName>lv_spinbox.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\GUI\LVGL\lvgl\src\lv_objx\lv_spinbox.c</FilePath>
@@ -947,11 +932,6 @@
               <FileName>lv_ta.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\GUI\LVGL\lvgl\src\lv_objx\lv_ta.c</FilePath>
-            </File>
-            <File>
-              <FileName>lv_table.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\GUI\LVGL\lvgl\src\lv_objx\lv_table.c</FilePath>
             </File>
             <File>
               <FileName>lv_tabview.c</FileName>
@@ -974,29 +954,9 @@
               <FilePath>..\GUI\LVGL\lvgl\src\lv_themes\lv_theme.c</FilePath>
             </File>
             <File>
-              <FileName>lv_theme_alien.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\GUI\LVGL\lvgl\src\lv_themes\lv_theme_alien.c</FilePath>
-            </File>
-            <File>
               <FileName>lv_theme_default.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\GUI\LVGL\lvgl\src\lv_themes\lv_theme_default.c</FilePath>
-            </File>
-            <File>
-              <FileName>lv_theme_material.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\GUI\LVGL\lvgl\src\lv_themes\lv_theme_material.c</FilePath>
-            </File>
-            <File>
-              <FileName>lv_theme_mono.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\GUI\LVGL\lvgl\src\lv_themes\lv_theme_mono.c</FilePath>
-            </File>
-            <File>
-              <FileName>lv_theme_nemo.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\GUI\LVGL\lvgl\src\lv_themes\lv_theme_nemo.c</FilePath>
             </File>
             <File>
               <FileName>lv_theme_night.c</FileName>
@@ -1004,19 +964,34 @@
               <FilePath>..\GUI\LVGL\lvgl\src\lv_themes\lv_theme_night.c</FilePath>
             </File>
             <File>
-              <FileName>lv_theme_templ.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\GUI\LVGL\lvgl\src\lv_themes\lv_theme_templ.c</FilePath>
-            </File>
-            <File>
-              <FileName>lv_theme_zen.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\GUI\LVGL\lvgl\src\lv_themes\lv_theme_zen.c</FilePath>
-            </File>
-            <File>
               <FileName>lv_port_disp.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\GUI\LVGL\lv_port_disp.c</FilePath>
+            </File>
+            <File>
+              <FileName>lv_canvas.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\GUI\LVGL\lvgl\src\lv_objx\lv_canvas.c</FilePath>
+            </File>
+            <File>
+              <FileName>lv_mbox.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\GUI\LVGL\lvgl\src\lv_objx\lv_mbox.c</FilePath>
+            </File>
+            <File>
+              <FileName>lv_roller.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\GUI\LVGL\lvgl\src\lv_objx\lv_roller.c</FilePath>
+            </File>
+            <File>
+              <FileName>lv_slider.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\GUI\LVGL\lvgl\src\lv_objx\lv_slider.c</FilePath>
+            </File>
+            <File>
+              <FileName>lv_table.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\GUI\LVGL\lvgl\src\lv_objx\lv_table.c</FilePath>
             </File>
           </Files>
         </Group>

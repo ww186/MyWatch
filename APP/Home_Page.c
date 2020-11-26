@@ -109,64 +109,87 @@ static void TimeLedCreate(lv_obj_t* cont)
 }
 
 
-static void TopContCreate(void)
+static lv_obj_t* TopContCreate(lv_obj_t* Parent)
 {
-    ContTop = lv_cont_create(ContForWholePage, NULL);
-    ContDate = lv_cont_create(ContTop, NULL);
+    lv_obj_t* ContTop_t;
+    ContTop_t = lv_cont_create(Parent, NULL);
+    //ContDate = lv_cont_create(ContTop, NULL);
 
-    DateLabCreate(ContDate);
+   // DateLabCreate(ContDate);
 
-    LabWeek = lv_label_create(ContTop, NULL);
-    LabBat = lv_label_create(ContTop, NULL);
+    LabWeek = lv_label_create(ContTop_t, NULL);
+    LabBat = lv_label_create(ContTop_t, NULL);
 
     lv_label_set_text(LabWeek, "---");
     lv_label_set_text(LabBat, LV_SYMBOL_BATTERY_FULL);
 
-    lv_cont_set_fit2(ContTop, LV_FIT_FLOOD, LV_FIT_TIGHT);
-    lv_cont_set_layout(ContTop, LV_LAYOUT_OFF);
-    lv_cont_set_style(ContTop, LV_CONT_STYLE_MAIN, &lv_style_transp);
+    lv_cont_set_fit2(ContTop_t, LV_FIT_FLOOD, LV_FIT_TIGHT);
+    lv_cont_set_layout(ContTop_t, LV_LAYOUT_OFF);
+    lv_cont_set_style(ContTop_t, LV_CONT_STYLE_MAIN, &lv_style_transp);
 
-    lv_cont_set_layout(ContDate, LV_LAYOUT_ROW_M);
-    lv_cont_set_fit(ContDate, LV_FIT_TIGHT);
-    lv_cont_set_style(ContDate, LV_CONT_STYLE_MAIN, &lv_style_transp);
-    lv_obj_align(ContDate, ContTop, LV_ALIGN_IN_TOP_LEFT, 0, 0);
+    //lv_cont_set_layout(ContDate, LV_LAYOUT_ROW_M);
+    //lv_cont_set_fit(ContDate, LV_FIT_TIGHT);
+   // lv_cont_set_style(ContDate, LV_CONT_STYLE_MAIN, &lv_style_transp);
+    //lv_obj_align(ContDate, ContTop, LV_ALIGN_IN_TOP_LEFT, 0, 0);
 
     lv_obj_align(LabWeek, NULL, LV_ALIGN_IN_TOP_RIGHT, -42, 6);
     lv_obj_align(LabBat, NULL, LV_ALIGN_IN_TOP_RIGHT, 0, 6);
+    return ContTop_t;
 }
 
-static void TimeContCreate(void)
+static lv_obj_t* DateContCreate(lv_obj_t* Parent)
 {
-    ContTime = lv_cont_create(ContForWholePage, NULL);
+    lv_obj_t* ContDate_t;
+    ContDate_t = lv_cont_create(Parent, NULL);
+    DateLabCreate(ContDate_t);
 
-    lv_cont_set_layout(ContTime, LV_LAYOUT_OFF);
-    lv_cont_set_fit(ContTime, LV_FIT_NONE);
-    lv_obj_set_size(ContTime, lv_obj_get_width(ContForWholePage), font_hei48.line_height);
-    lv_cont_set_style(ContTime, LV_CONT_STYLE_MAIN, &lv_style_transp);
+    lv_cont_set_layout(ContDate_t, LV_LAYOUT_ROW_M);
+    lv_cont_set_fit(ContDate_t, LV_FIT_TIGHT);
+    lv_cont_set_style(ContDate_t, LV_CONT_STYLE_MAIN, &lv_style_transp);
+    lv_obj_align(ContDate_t, Parent, LV_ALIGN_IN_TOP_LEFT, 0, 0);
 
-    TimeLabCreate(ContTime);
-    TimeLedCreate(ContTime);
+    return ContDate_t;
 }
 
-static void PageContCreate(void)
+static lv_obj_t* TimeContCreate(lv_obj_t* Parent)
 {
+    lv_obj_t* ContTime_t;
+    ContTime_t = lv_cont_create(Parent, NULL);
+
+    lv_cont_set_layout(ContTime_t, LV_LAYOUT_OFF);
+    lv_cont_set_fit(ContTime_t, LV_FIT_NONE);
+    lv_obj_set_size(ContTime_t, lv_obj_get_width(Parent), font_hei48.line_height);
+    lv_cont_set_style(ContTime_t, LV_CONT_STYLE_MAIN, &lv_style_transp);
+
+    TimeLabCreate(ContTime_t);
+    TimeLedCreate(ContTime_t);
+	
+	  return ContTime_t;
+}
+
+static lv_obj_t* PageContCreate(void)
+{
+    lv_obj_t* ContForWholePage_t;
     lv_obj_t * scr = lv_scr_act();
-    ContForWholePage = lv_page_create(scr, NULL);
+    ContForWholePage_t = lv_page_create(scr, NULL);
     
-    lv_page_set_scrl_layout(ContForWholePage, LV_LAYOUT_COL_M);
+    lv_page_set_scrl_layout(ContForWholePage_t, LV_LAYOUT_COL_M);
 
-    lv_page_set_sb_mode(ContForWholePage, LV_SB_MODE_OFF);
-	lv_obj_set_size(ContForWholePage, 200, 120);
-	lv_obj_align(ContForWholePage, NULL, LV_ALIGN_CENTER, 0, 0);
+    lv_page_set_sb_mode(ContForWholePage_t, LV_SB_MODE_OFF);
+	lv_obj_set_size(ContForWholePage_t, 200, 120);
+	lv_obj_align(ContForWholePage_t, NULL, LV_ALIGN_CENTER, 0, 0);
+
+    return ContForWholePage_t;
 }
 
 
 
-static void CreatShowTimeUi(void)
+static void CreatShowTimeUi(lv_obj_t* Parent)
 {
     
-    TopContCreate();
-    TimeContCreate();
+    ContTop = TopContCreate(Parent);
+    ContDate = DateContCreate(ContTop);
+    ContTime = TimeContCreate(Parent);
 
     
 }
@@ -394,7 +417,7 @@ static void ReflashHomePage(void)
 static void OpenHomePage(void)
 {
     lv_obj_move_foreground(ContForWholePage);
-    CreatShowTimeUi();
+    CreatShowTimeUi(ContForWholePage);
     Rtc_InitDate();
     taskTimeUpdate = lv_task_create((lv_task_cb_t)ReflashHomePage, 500, LV_TASK_PRIO_MID, NULL);
     lv_task_ready(taskTimeUpdate);
@@ -413,13 +436,13 @@ static void CloseHomePage(void)
 
 void HomePage_Init(void)
 {
-    PageContCreate();
-	CreatShowTimeUi();
+    ContForWholePage = PageContCreate();
+	CreatShowTimeUi(ContForWholePage);
 
     SetHomePageInitDate();
     taskTimeUpdate = lv_task_create((lv_task_cb_t)ReflashHomePage, 500, LV_TASK_PRIO_MID, NULL);
     lv_task_ready(taskTimeUpdate);
-    Page_InitChildNode(&HomePageNode, ChildNodeList);
+    //Page_InitChildNode(&HomePageNode, ChildNodeList);
 
 }
 
