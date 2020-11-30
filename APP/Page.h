@@ -27,9 +27,9 @@ typedef struct PageNode{
 
 }PageNode_S;
 
-extern PageNode_S HomePageNode;
-extern PageNode_S ManagePageNode;
-extern PageNode_S StopWatchPageNode;
+//extern PageNode_S HomePageNode;
+//extern PageNode_S ManagePageNode;
+//extern PageNode_S StopWatchPageNode;
 
 
 
@@ -47,6 +47,8 @@ void Page_Key2Handl(void);
 void Page_Key3Handl(void);
 void Page_Key4Handl(void);
 void Page_ChangePage(PageNode_S* iNode);
+
+lv_obj_t * lv_CreatePageCont(void);
 
 #endif
 

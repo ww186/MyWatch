@@ -1,6 +1,7 @@
 #ifndef _COMMON_H_
 #define _COMMON_H_
 #include "sys.h"
+#include "lvgl.h"
 typedef enum
 {
 	FALSE = 0,
@@ -16,7 +17,6 @@ typedef enum
 	Thur,
 	Fri,
 	Sat,
-	Week_NONE,
 }Week_E;
 
 typedef struct{
@@ -29,7 +29,7 @@ typedef struct{
 	Week_E Week;
 }Date_S;
 
-
+void lv_AddAnimObj(lv_obj_t* obj, lv_coord_t Start_y, lv_coord_t End_y, lv_anim_exec_xcb_t exec_cb, uint16_t time);
 
 #endif
 

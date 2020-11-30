@@ -3,11 +3,10 @@
 #include "rtc.h"
 #include "usart.h"
 #include "lvgl.h"	
+#include "common.h"
+
 LV_FONT_DECLARE(font_hei48);
 
-PageNode_S* ChildNodeList[] = {
-    &ManagePageNode,
-};
 
 static Date_S Date;
 
@@ -44,14 +43,6 @@ static void DateLabCreate(lv_obj_t* cont)
     {
         DateLabGrp[i] = lv_label_create(cont, NULL);
         lv_label_set_text(DateLabGrp[i], "-");
-        /*
-        if((i == 4) || (i == 7))
-            lv_label_set_text(DateLabGrp[i], "-");
-        else
-        {
-           lv_label_set_text(DateLabGrp[i], "0");
-        }
-        */
     }
         
 }
@@ -176,7 +167,7 @@ static lv_obj_t* PageContCreate(void)
     lv_page_set_scrl_layout(ContForWholePage_t, LV_LAYOUT_COL_M);
 
     lv_page_set_sb_mode(ContForWholePage_t, LV_SB_MODE_OFF);
-	lv_obj_set_size(ContForWholePage_t, 200, 120);
+	lv_obj_set_size(ContForWholePage_t, MAX_PAGE_WIDTH, MAX_PAGE_HIGH);
 	lv_obj_align(ContForWholePage_t, NULL, LV_ALIGN_CENTER, 0, 0);
 
     return ContForWholePage_t;
@@ -199,41 +190,15 @@ void SetHomePageInitDate(void)
     Date.Year = 0xffff;
     Date.Month = 0xff;
     Date.Day = 0xff;
-    Date.Week = Week_NONE;
+    Date.Week = Mon;
     Date.Hour = 0xff;
     Date.Min = 0xff;
     Date.Sec = 0xff;
 }
 
-
-
-static void lv_anim_exec_cb_num(lv_obj_t* Lab, lv_anim_value_t coord)
+static void DisplayLabAnim(lv_obj_t* Lab, lv_coord_t OffSet)
 {
-    printf("__lv_anim_exec_cb_num Coord %d \r\n", coord);
-    lv_obj_set_y(Lab, coord);
-}
-
-static void lv_anim_Ready_cb_num(lv_anim_t* a)
-{
-    printf("__lv_anim_Ready_cb_num \r\n");
-    //lv_label_set_text(TimeLabGrp[0], "1");
-}
-
-static void DisplayLabAnim(lv_obj_t* Lab, lv_coord_t Start_y, lv_coord_t End_y, uint16_t time)
-{
-    lv_coord_t AnimStart_y, AnimEnd_y;
-    lv_anim_t a;
-    //AnimStart_y = lv_obj_get_y(Lab);
-    AnimStart_y = Start_y;
-    AnimEnd_y = End_y;
-    lv_anim_init(&a);
-    lv_anim_set_exec_cb(&a, Lab, (lv_anim_exec_xcb_t)lv_anim_exec_cb_num);
-    //lv_anim_set_ready_cb(&a, lv_anim_Ready_cb_num );
-    lv_anim_set_values(&a, AnimStart_y, AnimEnd_y);
-    lv_anim_set_path_cb(&a, lv_anim_path_linear);
-    lv_anim_set_time(&a, time, 0);
-
-    lv_anim_create(&a);
+    lv_AddAnimObj(Lab, lv_obj_get_y(Lab), lv_obj_get_y(Lab)+OffSet, (lv_anim_exec_xcb_t)lv_obj_set_y, LV_ANIM_TIME_DEFAULT);
 }
 
 static void LabelSetNum(lv_obj_t* Lab, u8 Num)
@@ -289,8 +254,9 @@ static void DisplayTimeAnim(u8 TimeGrpIndex, u8 NewValue)
 
     Offset_y = lv_obj_get_y(now_label) - lv_obj_get_y(next_label);
 
-    DisplayLabAnim(now_label, lv_obj_get_y(now_label), lv_obj_get_y(now_label)+Offset_y, LV_ANIM_TIME_DEFAULT);
-    DisplayLabAnim(next_label, lv_obj_get_y(next_label), lv_obj_get_y(next_label)+Offset_y, LV_ANIM_TIME_DEFAULT);
+   
+    DisplayLabAnim(now_label, Offset_y);
+    DisplayLabAnim(next_label, Offset_y);
 
 }
 
@@ -442,7 +408,6 @@ void HomePage_Init(void)
     SetHomePageInitDate();
     taskTimeUpdate = lv_task_create((lv_task_cb_t)ReflashHomePage, 500, LV_TASK_PRIO_MID, NULL);
     lv_task_ready(taskTimeUpdate);
-    //Page_InitChildNode(&HomePageNode, ChildNodeList);
 
 }
 
