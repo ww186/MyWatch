@@ -365,7 +365,7 @@
               <MiscControls>--diag_suppress=68  --diag_suppress=111 --diag_suppress=550</MiscControls>
               <Define>STM32F10X_HD,USE_STDPERIPH_DRIVER</Define>
               <Undefine></Undefine>
-              <IncludePath>..\HARDWARE\LED;..\SYSTEM\delay;..\SYSTEM\sys;..\SYSTEM\usart;..\USER;..\STM32F10x_FWLib\inc;..\CORE;..\HARDWARE\KEY;..\HARDWARE\LCD;..\DEV;..\APP;..\SYSTEM;..\COM;..\GUI\LVGL;..\GUI\LVGL\lvgl;..\GUI\LVGL\lv_examples;..\GUI\LVGL\lv_examples\lv_apps\demo</IncludePath>
+              <IncludePath>..\HARDWARE\LED;..\SYSTEM\delay;..\SYSTEM\sys;..\SYSTEM\usart;..\USER;..\STM32F10x_FWLib\inc;..\CORE;..\HARDWARE\KEY;..\HARDWARE\LCD;..\DEV;..\APP;..\SYSTEM;..\COM;..\GUI\LVGL;..\GUI\LVGL\lvgl;..\GUI\LVGL\lv_examples;..\GUI\LVGL\lv_examples\lv_apps\demo;..\FATFS\source</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -473,6 +473,16 @@
               <FileType>1</FileType>
               <FilePath>..\SYSTEM\timer.c</FilePath>
             </File>
+            <File>
+              <FileName>spi.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\SYSTEM\spi.c</FilePath>
+            </File>
+            <File>
+              <FileName>dma.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\SYSTEM\dma.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -538,6 +548,16 @@
               <FileType>1</FileType>
               <FilePath>..\STM32F10x_FWLib\src\stm32f10x_tim.c</FilePath>
             </File>
+            <File>
+              <FileName>stm32f10x_spi.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\STM32F10x_FWLib\src\stm32f10x_spi.c</FilePath>
+            </File>
+            <File>
+              <FileName>stm32f10x_dma.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\STM32F10x_FWLib\src\stm32f10x_dma.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -557,6 +577,11 @@
               <FileName>Dev_Lcd.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\DEV\Dev_Lcd.c</FilePath>
+            </File>
+            <File>
+              <FileName>w25qxx.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\DEV\w25qxx.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -1037,6 +1062,26 @@
               <FileName>ImgTimeCfg.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\GUI\IMG\ImgTimeCfg.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>FATFS</GroupName>
+          <Files>
+            <File>
+              <FileName>diskio.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\FATFS\source\diskio.c</FilePath>
+            </File>
+            <File>
+              <FileName>ff.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\FATFS\source\ff.c</FilePath>
+            </File>
+            <File>
+              <FileName>ffsystem.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\FATFS\source\ffsystem.c</FilePath>
             </File>
           </Files>
         </Group>

@@ -3,8 +3,10 @@
 #include "sys.h"
 #include "common.h"
 
-void TIM6_Int_Init(u16 ms);
-BOOL_E Is10MsTick(void);
+typedef void (*TimerTask)(u32 data);
+
+void TimerTaskInit(void);
+BOOL_E TimerTaskReg(TimerTask iTask, u32 iPeriod, u32 iData);
 
 
 

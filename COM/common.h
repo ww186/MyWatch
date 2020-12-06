@@ -29,6 +29,20 @@ typedef struct{
 	Week_E Week;
 }Date_S;
 
+typedef struct LinkListNode{
+	void* Data;
+	struct LinkListNode* NextNode;
+}LinkListNode_S;
+
+typedef struct{
+	u8 NodeNum;
+	LinkListNode_S* HeadNode;
+	LinkListNode_S* TailNode;
+}LinkList;
+
+LinkList* CreateLinkList(void);
+LinkListNode_S* CreateLinkListNode(void* iData, int DataSize);
+BOOL_E LinkList_AddNodeToTail(LinkList* iLinkList, LinkListNode_S* iNode);
 void lv_AddAnimObj(lv_obj_t* obj, lv_coord_t Start_y, lv_coord_t End_y, lv_anim_exec_xcb_t exec_cb, uint16_t time);
 
 #endif
