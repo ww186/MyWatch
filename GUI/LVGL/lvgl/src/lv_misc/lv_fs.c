@@ -118,7 +118,8 @@ lv_fs_res_t lv_fs_open(lv_fs_file_t * file_p, const char * path, lv_fs_mode_t mo
         return LV_FS_RES_NOT_IMP;
     }
 
-    const char * real_path = lv_fs_get_real_path(path);
+    //const char * real_path = lv_fs_get_real_path(path);
+    const char * real_path = path;
     lv_fs_res_t res        = file_p->drv->open_cb(file_p->drv, file_p->file_d, real_path, mode);
 
     if(res != LV_FS_RES_OK) {
@@ -128,6 +129,7 @@ lv_fs_res_t lv_fs_open(lv_fs_file_t * file_p, const char * path, lv_fs_mode_t mo
     }
 
     return res;
+	
 }
 
 /**

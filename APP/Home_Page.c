@@ -4,6 +4,7 @@
 #include "usart.h"
 #include "lvgl.h"	
 #include "common.h"
+#include "adc.h"
 
 LV_FONT_DECLARE(font_hei48);
 

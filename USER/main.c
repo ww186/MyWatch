@@ -16,6 +16,7 @@
 #include "spi.h"
 #include "dma.h"
 #include "ff.h" 
+#include "adc.h"
 
 
 static void InitLvTheme(void)
@@ -23,79 +24,58 @@ static void InitLvTheme(void)
 	lv_theme_t* theme = lv_theme_night_init(210, NULL);
 	lv_theme_set_current(theme);
 }
- 	 u8 TEXT_Buffer[]={"WarShipSTM32 SPI TEST"};
-	u8 Rx_Buffer[50];
+
+
+
 int main(void)
 {	 
-	u8 i;
-	FIL fil;
-	FATFS fs;
-	FRESULT res;
-	UINT bw, br;
-	BYTE work[FF_MAX_SS];
-	BYTE buffer[100];
+	lv_fs_file_t file;
+	u32 br, bw;
+	u8 buffer[100];
 	delay_init();	    	 //延时函数初始化	  
 	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);//设置中断优先级分组为组2：2位抢占优先级，2位响应优先级
 	uart_init(115200);
 	SpiInit();
-	//InitW25qxx();
 	InitDma();
+	Adc_Init();
 	
-//	res = f_mkfs("1:", 0, work, sizeof(work));
-//	
-//	if(res == 0)
+	TimerTaskInit();
+	lv_init();
+	
+	lv_port_disp_init();
+	InitLvTheme();
+	KEY_Init();
+	Rtc_Init();
+	Page_Init();
+	lv_task_create((lv_task_cb_t)KEY_ScanProcess, 10, LV_TASK_PRIO_HIGH, NULL);
+	TimerTaskReg(lv_tick_inc, 10, 10);
+	FatFsInit();
+
+//	if(lv_fs_open(&file, "1:a.txt", LV_FS_MODE_OPEN_ALWAYS | LV_FS_MODE_WR ) == LV_FS_RES_OK) 
 //	{
-//		printf("Mkfs Sucess\r\n");
-//		res = f_mount(&fs,"1:",1);
-//		if(res == 0) printf("Mount Sucess\r\n");
-//	}
-	
-	res = f_mount(&fs,"1:",1);
-		if(res == 0) printf("Mount Sucess\r\n");
-	
-	res = f_open(&fil, "1:a.txt", FA_OPEN_ALWAYS | FA_WRITE | FA_READ);
-	printf("res %d\r\n", res);
-	
-	if(res == 0)
-	{
-		res = f_write(&fil, "Hello, World!\r\n", 15, &bw);
-		f_close(&fil);
-		//f_lseek(&fil, 0);
-		res = f_open(&fil, "1:a.txt", FA_OPEN_ALWAYS | FA_WRITE | FA_READ);
-		f_lseek(&fil, 0);
-		if(res == 0)
+//		printf("open sucess\r\n");
+//		if(lv_fs_write(&file, "LV Test3 Ok!\r\n", 14, &br) == LV_FS_RES_OK) printf("write sucess\r\n");
+
+//		lv_fs_close(&file);
+
+		if(lv_fs_open(&file, "1:a.txt", LV_FS_MODE_OPEN_EXISTING | LV_FS_MODE_RD ) == LV_FS_RES_OK) 
 		{
-			 res = f_read(&fil, buffer, sizeof(buffer), &br);
-				printf("read res %d\r\n", res);
-				printf("br %d\r\n", br);
-			  if(res == 0) printf("%s\r\n", buffer);
+			printf("open2 sucess\r\n");
+			if(lv_fs_read(&file, buffer, 100, &bw) == LV_FS_RES_OK) 
+			{
+				printf("%s\r\n", buffer);
+
+			}
+
+			lv_fs_close(&file);
+
 		}
-		
-		f_close(&fil);
-		
-	}
-	
-	
-//	W25QXX_Write_Page(TEXT_Buffer, 200, sizeof(TEXT_Buffer));
-//	W25QXX_Read(Rx_Buffer, 200, sizeof(TEXT_Buffer));
-//	for(i=0; i<sizeof(TEXT_Buffer); i++)
-//	{
-//		printf("%c", Rx_Buffer[i]);
 //	}
-//	printf("__FlashId %x\r\n", W25QXX_ReadID());
-//	TimerTaskInit();
-//	lv_init();
-//	lv_port_disp_init();
-//	InitLvTheme();
-//	KEY_Init();
-//	Rtc_Init();
-//	Page_Init();
-//	lv_task_create((lv_task_cb_t)KEY_ScanProcess, 10, LV_TASK_PRIO_HIGH, NULL);
-//	TimerTaskReg(lv_tick_inc, 10, 10);
-	
+//	
+
 	while(1)
 	{
-//		lv_task_handler();
+		lv_task_handler();
 	}
 	
 	 

@@ -1,7 +1,12 @@
 #include "lvgl.h"
 #include "common.h"
+#include "ff.h"
 #include <stdlib.h>
 #include <string.h>
+
+static FATFS fs;
+static BYTE work[FF_MAX_SS];
+
 
 LinkList* CreateLinkList(void)
 {
@@ -67,4 +72,104 @@ void lv_AddAnimObj(lv_obj_t* obj, lv_coord_t Start_y, lv_coord_t End_y, lv_anim_
 
     lv_anim_create(&a);
 }
+
+
+static  bool IsFatFsReady(lv_fs_drv_t * drv)
+{
+    FRESULT res;
+    lv_fs_drv_t *p = drv;
+
+//    res = f_mount(&fs,"1:",1);
+//    if(res == FR_OK) return true;
+
+//    res = f_mkfs("1:", 0, work, sizeof(work));
+//    if(res == FR_OK) 
+//    {
+//         res = f_mount(&fs,"1:",1);
+//         if(res == FR_OK) return true;
+//    }
+
+//    return false;
+	return true;
+}
+
+static lv_fs_res_t f_Open(struct _lv_fs_drv_t * drv, void * file_p, const char * path, lv_fs_mode_t mode)
+{
+    FRESULT res;
+    lv_fs_drv_t *p = drv;
+
+    res = f_open(file_p, path, mode);
+    if(res == FR_OK) return LV_FS_RES_OK;
+
+    return LV_FS_RES_UNKNOWN;
+}
+
+static lv_fs_res_t f_Close(struct _lv_fs_drv_t * drv, void * file_p)
+{
+    FRESULT res;
+    lv_fs_drv_t *p = drv;
+
+    res = f_close(file_p);
+
+    if(res == FR_OK) return LV_FS_RES_OK;
+
+    return LV_FS_RES_UNKNOWN;
+}
+
+static lv_fs_res_t f_Read(struct _lv_fs_drv_t * drv, void * file_p, void * buf, uint32_t btr, uint32_t * br)
+{
+    FRESULT res;
+    lv_fs_drv_t *p = drv;
+
+    res = f_read(file_p, buf, btr, br);
+
+    if(res == FR_OK) return LV_FS_RES_OK;
+
+    return LV_FS_RES_UNKNOWN;
+}
+
+static lv_fs_res_t f_Write(struct _lv_fs_drv_t * drv, void * file_p, const void * buf, uint32_t btw, uint32_t * bw)
+{
+    FRESULT res;
+    lv_fs_drv_t *p = drv;
+
+    res = f_write(file_p, buf, btw, bw);
+
+    if(res == FR_OK) return LV_FS_RES_OK;
+
+    return LV_FS_RES_UNKNOWN;
+}
+
+lv_fs_drv_t FsDrv = {
+	//.ready_cb = IsFatFsReady,
+    .letter = '1',
+    .file_size = sizeof(FIL),
+    .open_cb = f_Open,
+    .close_cb = f_Close,
+    .read_cb = f_Read,
+    .write_cb = f_Write,
+};
+
+BOOL_E FatFsInit(void)
+{
+    FRESULT res;
+
+    lv_fs_drv_register(&FsDrv);
+
+    res = f_mount(&fs,"1:",1);
+    if(res == FR_OK) return TRUE;
+
+    res = f_mkfs("1:", 0, work, sizeof(work));
+    if(res == FR_OK) 
+    {
+         res = f_mount(&fs,"1:",1);
+         if(res == FR_OK) return TRUE;
+    }
+
+    return FALSE;
+}
+
+
+
+
 

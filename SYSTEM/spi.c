@@ -2,42 +2,6 @@
 #include "dma.h"
 #include "usart.h"
 
-
-
-static void ResetSpixTxERxE(SPI_TypeDef* SPIx)
-{
-	//u8 retry=0;
-	u8 RecvDataBuffer_t[10];
-	u8 SendBuffer_t[10];
-	
-	SPI_Cmd(SPIx, ENABLE);
-	SendBuffer_t[0] = 0xff;
-	WriteDataToDma(SendBuffer_t, 1);
-	//SPI_I2S_SendData(SPIx, 0xffff);
-	while(SPI_I2S_GetFlagStatus(SPIx, SPI_I2S_FLAG_TXE) != RESET);
-	while (SPI_I2S_GetFlagStatus(SPIx, SPI_I2S_FLAG_TXE) == RESET) //检查指定的SPI标志位设置与否:发送缓存空标志位
-	{
-		//retry++;
-		//if(retry>200)return ;
-	}	
-	printf("1\r\n");
-	//SPI_I2S_SendData(SPIx, 0xffff);
-	WriteDataToDma(SendBuffer_t, 1);
-//	retry=0;
-
-	while (SPI_I2S_GetFlagStatus(SPIx, SPI_I2S_FLAG_RXNE) == RESET) //检查指定的SPI标志位设置与否:接受缓存非空标志位
-	{
-//		retry++;
-//		if(retry>200)return ;
-	}	  		
-	
-	//SPI_I2S_ReceiveData(SPIx);
-	printf("2\r\n");
-	ReadDataFromDma(RecvDataBuffer_t, 1);
-	SPI_Cmd(SPIx,DISABLE);
-}
-
-
 void SpiInit(void)
 {
 	GPIO_InitTypeDef GPIO_InitStructure;
@@ -63,52 +27,31 @@ void SpiInit(void)
 	SPI_InitStruct.SPI_Mode = SPI_Mode_Master;
 	SPI_InitStruct.SPI_NSS = SPI_NSS_Soft;
 	
-	SPI_I2S_DMACmd(SPI2, SPI_I2S_DMAReq_Tx | SPI_I2S_DMAReq_Rx, ENABLE);
+	//SPI_I2S_DMACmd(SPI2, SPI_I2S_DMAReq_Tx | SPI_I2S_DMAReq_Rx, ENABLE);
 	SPI_Init(SPI2, &SPI_InitStruct);
 	
-	
-	//ResetSpixTxERxE(SPI2);
-	
-	//SPI_Cmd(SPI2,DISABLE);
 }
 
 void StartSpi(SPI_TypeDef* SPIx)
 {
 	SPI_Cmd(SPIx, ENABLE);
-	
+	SPI_I2S_DMACmd(SPI2, SPI_I2S_DMAReq_Tx | SPI_I2S_DMAReq_Rx, ENABLE);
 }
 
 void SpiSendData(u8* Data, u16 DataSize)
 {
-	
 	WriteDataToDma(Data, DataSize);
 }
 
 void SpiReadData(u8* oData, u16 DataSize)
 {
-	
 	ReadDataFromDma(oData, DataSize);
 					 	
 }
 
 void EndSpi(SPI_TypeDef* SPIx)
 {
-	u8 retry=0;
-	
-	while (SPI_I2S_GetFlagStatus(SPIx, SPI_I2S_FLAG_TXE) == RESET) //检查指定的SPI标志位设置与否:发送缓存空标志位
-	{
-		retry++;
-		if(retry>200)return ;
-	}	
-	
-	retry=0;
-	
-	while (SPI_I2S_GetFlagStatus(SPIx, SPI_I2S_FLAG_BSY) == RESET) //检查指定的SPI标志位设置与否:发送缓存空标志位
-	{
-		retry++;
-		if(retry>200)return ;
-	}	
-	
+	SPI_I2S_DMACmd(SPI2, SPI_I2S_DMAReq_Tx | SPI_I2S_DMAReq_Rx, DISABLE);
 	SPI_Cmd(SPI2,DISABLE);
 }
 

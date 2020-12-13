@@ -56,9 +56,16 @@ typedef uint8_t lv_fs_res_t;
 /**
  * Filesystem mode.
  */
+
 enum {
-    LV_FS_MODE_WR = 0x01,
-    LV_FS_MODE_RD = 0x02,
+    LV_FS_MODE_OPEN_EXISTING  =	0x00,
+    LV_FS_MODE_RD = 0x01,
+    LV_FS_MODE_WR = 0x02,
+    LV_FS_MODE_CREATE_NEW = 0x04,
+    LV_FS_MODE_CREATE_ALWAYS = 0x08,
+    LV_FS_MODE_OPEN_ALWAYS = 0x10,
+    V_FS_MODE_OPEN_APPEND = 0x30,
+    
 };
 typedef uint8_t lv_fs_mode_t;
 

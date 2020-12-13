@@ -3105,7 +3105,7 @@ static FRESULT follow_path (	/* FR_OK(0): successful, !=0: error code */
 	} else {								/* Follow path */
 		for (;;) {
 			res = create_name(dp, &path);	/* Get a segment name of the path */
-			printf("__follow_path Name %d\r\n", dp->dir[DIR_Name]);
+			
 			if (res != FR_OK) break;
 			res = dir_find(dp);				/* Find an object with the segment name */
 			ns = dp->fn[NSFLAG];
@@ -3304,7 +3304,6 @@ static UINT check_fs (	/* 0:FAT VBR, 1:exFAT VBR, 2:Not FAT and valid BS, 3:Not 
 	WORD w, sign;
 	BYTE b;
 
-
 	fs->wflag = 0; fs->winsect = (LBA_t)0 - 1;		/* Invaidate window */
 	if (move_window(fs, sect) != FR_OK) return 4;	/* Load the boot sector */
 	sign = ld_word(fs->win + BS_55AA);
@@ -3314,6 +3313,7 @@ static UINT check_fs (	/* 0:FAT VBR, 1:exFAT VBR, 2:Not FAT and valid BS, 3:Not 
 	b = fs->win[BS_JmpBoot];
 	if (b == 0xEB || b == 0xE9 || b == 0xE8) {	/* Valid JumpBoot code? (short jump, near jump or near call) */
 		if (sign == 0xAA55 && !mem_cmp(fs->win + BS_FilSysType32, "FAT32   ", 8)) return 0;	/* It is an FAT32 VBR */
+		if (sign == 0xAA55 && !mem_cmp(fs->win + BS_FilSysType, "FAT     ", 8)) return 0;	/* It is an FAT16 VBR */
 		/* FAT volumes formatted with early MS-DOS lack boot signature and FAT string, so that we need to identify the FAT VBR without them. */
 		w = ld_word(fs->win + BPB_BytsPerSec);
 		if ((w & (w - 1)) == 0 && w >= FF_MIN_SS && w <= FF_MAX_SS) {	/* Properness of sector size */
@@ -3726,15 +3726,15 @@ FRESULT f_open (
 
 
 	if (!fp) return FR_INVALID_OBJECT;
-
+		
 	/* Get logical drive number */
 	mode &= FF_FS_READONLY ? FA_READ : FA_READ | FA_WRITE | FA_CREATE_ALWAYS | FA_CREATE_NEW | FA_OPEN_ALWAYS | FA_OPEN_APPEND;
 	res = mount_volume(&path, &fs, mode);
 	if (res == FR_OK) {
 		dj.obj.fs = fs;
 		INIT_NAMBUF(fs);
+		
 		res = follow_path(&dj, path);	/* Follow the file path */
-			printf("follow_path res %d\r\n", res);
 #if !FF_FS_READONLY	/* Read/Write configuration */
 		if (res == FR_OK) {
 			if (dj.fn[NSFLAG] & NS_NONAME) {	/* Origin directory itself? */
@@ -5885,7 +5885,6 @@ FRESULT f_mkfs (
 	if (!opt) opt = &defopt;	/* Use default parameter if it is not given */
 
 	/* Get physical drive status (sz_drv, sz_blk, ss) */
-	printf("__f_mkfs pdrv %d\r\n", pdrv);
 	ds = disk_initialize(pdrv);
 	if (ds & STA_NOINIT) return FR_NOT_READY;
 	if (ds & STA_PROTECT) return FR_WRITE_PROTECTED;
@@ -5906,7 +5905,6 @@ FRESULT f_mkfs (
 	sz_au /= ss;	/* Byte --> Sector */
 
 	/* Get working buffer */
-	printf("__f_mkfs len %d ss %d\r\n", len, ss);
 	sz_buf = len / ss;		/* Size of working buffer [sector] */
 	if (sz_buf == 0) return FR_NOT_ENOUGH_CORE;
 	buf = (BYTE*)work;		/* Working buffer */
@@ -6266,7 +6264,6 @@ FRESULT f_mkfs (
 		}
 		st_word(buf + BS_55AA, 0xAA55);					/* Signature (offset is fixed here regardless of sector size) */
 		if (disk_write(pdrv, buf, b_vol, 1) != RES_OK) LEAVE_MKFS(FR_DISK_ERR);	/* Write it to the VBR sector */
-
 		/* Create FSINFO record if needed */
 		if (fsty == FS_FAT32) {
 			disk_write(pdrv, buf, b_vol + 6, 1);		/* Write backup VBR (VBR + 6) */

@@ -46,7 +46,6 @@ DSTATUS disk_status (
 )
 {
 	DSTATUS stat;
-	int result;
 
 	switch (pdrv) {
 	case DEV_RAM :
@@ -101,7 +100,6 @@ DSTATUS disk_initialize (
 )
 {
 	DSTATUS stat;
-	int result;
 
 	switch (pdrv) {
 	case DEV_RAM :
@@ -163,7 +161,6 @@ DRESULT disk_read (
 )
 {
 	DRESULT res;
-	int result;
 
 	switch (pdrv) {
 	case DEV_RAM :
@@ -234,7 +231,6 @@ DRESULT disk_write (
 )
 {
 	DRESULT res;
-	int result;
 
 	switch (pdrv) {
 	case DEV_RAM :
@@ -282,7 +278,6 @@ DRESULT disk_ioctl (
 )
 {
 	DRESULT res;
-	int result;
 
 	switch (pdrv) {
 	case DEV_RAM :

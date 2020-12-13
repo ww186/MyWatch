@@ -1,5 +1,6 @@
 #include "Dev_ExFlash.h"
 #include "spi.h"
+#include "usart.h"
 
 //指令表
 #define W25X_WriteEnable		0x06 
@@ -104,12 +105,12 @@ void W25QXX_Write_Enable(void)
 } 
 //W25QXX写禁止	
 //将WEL清零  
-void W25QXX_Write_Disable(void)   
-{  
-	EnableW25qxxCS();                           //使能器件   
-    W25qxxSendByte(W25X_WriteDisable);  //发送写禁止指令    
-	DisableW25qxxCS();                           //取消片选     	      
-} 
+//void W25QXX_Write_Disable(void)   
+//{  
+//	EnableW25qxxCS();                           //使能器件   
+//    W25qxxSendByte(W25X_WriteDisable);  //发送写禁止指令    
+//	DisableW25qxxCS();                           //取消片选     	      
+//} 
 
 
 u16 W25QXX_ReadID(void)
@@ -169,9 +170,10 @@ static void W25QXX_Erase_Sector(u16 Sector)
 	SendData_t[2] = (u8)((Dst_Addr)>>8);
 	SendData_t[3] = (u8)Dst_Addr;	
  	
-	W25QXX_Write_Enable();                  	//SET WEL 	 
-	W25QXX_Wait_Busy();   
+//	W25QXX_Write_Enable();                  	//SET WEL 	 
+//	W25QXX_Wait_Busy();   
 	W25QXX_Write_Enable();                            	//使能器件   
+	EnableW25qxxCS();
 	W25qxxSendData(SendData_t, 4); 
 	DisableW25qxxCS();                          	//取消片选     	      
   W25QXX_Wait_Busy();   				   		//等待擦除完成
@@ -210,15 +212,16 @@ void W25QXX_Write(u8* pBuffer,u32 WriteAddr,u16 NumByteToWrite)
  	secpos=WriteAddr/4096;//扇区地址  
 	secoff=WriteAddr%4096;//在扇区内的偏移
 	secremain=4096-secoff;//扇区剩余空间大小   
- 	//printf("ad:%X,nb:%X\r\n",WriteAddr,NumByteToWrite);//测试用
+ 	//测试用
  	if(NumByteToWrite<=secremain)secremain=NumByteToWrite;//不大于4096个字节
 	while(1) 
 	{	
 		W25QXX_Read(W25QXX_BUF,secpos*4096,4096);//读出整个扇区的内容
 		for(i=0;i<secremain;i++)//校验数据
 		{
-			if(W25QXX_BUF[secoff+i]!=0XFF)break;//需要擦除  	  
+			if(W25QXX_BUF[secoff+i]!=0XFF) break;//需要擦除  			
 		}
+		
 		if(i<secremain)//需要擦除
 		{
 			W25QXX_Erase_Sector(secpos);		//擦除这个扇区
